@@ -1,7 +1,8 @@
 import express, { Express } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import routes from '@/routes/router'
+import filesRoutes from '@/routes/files-upload.routes'
+import path from 'path'
 
 class App {
   server: Express
@@ -16,10 +17,14 @@ class App {
     this.server.use(express.urlencoded({ extended: true }))
     this.server.use(morgan('dev'))
     this.server.use(cors())
+    this.server.use(
+      '/files',
+      express.static(path.join(__dirname, '/../uploads/'))
+    )
   }
 
   routes() {
-    this.server.use(routes)
+    this.server.use(filesRoutes)
   }
 }
 
