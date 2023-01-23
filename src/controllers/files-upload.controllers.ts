@@ -22,7 +22,6 @@ class FilesUploadController {
     try {
       const files = await prisma.file.findMany()
 
-      console.log(files)
       return response.status(200).send(files)
     } catch (error) {
       console.log(error)
@@ -64,7 +63,7 @@ class FilesUploadController {
 
       if (file) {
         if (storageType === 's3') {
-          s3.deleteObject({
+          await s3.deleteObject({
             Bucket: 'nalyx-files-upload',
             Key: file.key,
           })
